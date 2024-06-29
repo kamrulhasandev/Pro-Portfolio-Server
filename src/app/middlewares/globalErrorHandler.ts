@@ -1,30 +1,32 @@
+import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
-import { ZodError } from "zod";
-import HandleZodError from "../errors/HandleZodError";
 
 const globalErrorHandler = (
-  error: any,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  let message = "Something went wrong!";
-  let errorDetails = error;
-  if (error instanceof ZodError) {
-    const formattedZodError: any = HandleZodError(error);
-    message = formattedZodError?.message;
-    errorDetails = formattedZodError?.errorDetails;
-  } else {
-    message = error.message;
-    errorDetails;
+  let statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+  let success = false;
+  let message = err.message || "Something went wrong!";
+  let error = err;
+
+  if (err instanceof Prisma.PrismaClientValidationError) {
+    message = "Validation Error";
+    error = err.message;
+  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    if (err.code === "P2002") {
+      message = "Duplicate Key error";
+      error = err.meta;
+    }
   }
 
-  res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-    success: false,
-    message: message,
-    errorDetails,
-    
+  res.status(statusCode).json({
+    success,
+    message,
+    error,
   });
 };
 
