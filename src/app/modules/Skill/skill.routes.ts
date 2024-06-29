@@ -13,6 +13,4 @@ router.post(
   SkillController.addSkill
 );
 
-
-
 export const SkillRoutes = router;

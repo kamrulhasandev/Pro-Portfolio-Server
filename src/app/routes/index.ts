@@ -1,19 +1,20 @@
 import express from "express";
-import { SkillRoutes } from './../modules/Skill/skill.routes';
-
+import { SkillRoutes } from "./../modules/Skill/skill.routes";
+import { ExperienceRoutes } from "../modules/Experience/experience.routes";
 
 const router = express.Router();
 
 const moduleRoutes = [
-    {
-        path: "/skill",
-        route: SkillRoutes
-    }
-]
+  {
+    path: "/skill",
+    route: SkillRoutes,
+  },
+  {
+    path: "/experience",
+    route: ExperienceRoutes,
+  },
+];
 
+moduleRoutes.forEach((route) => router.use(route.path, route.route));
 
-
-moduleRoutes.forEach(route => router.use(route.path, route.route))
-
-
-export default router
+export default router;

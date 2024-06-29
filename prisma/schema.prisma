@@ -26,10 +26,10 @@ model Experience {
   designation     String
   jobType         JobType
   jobLocation     JobLocation
-  startDate       DateTime
-  endDate         DateTime?
+  startDate       String
+  endDate         String?
   description     String
-  achievements    String
+  achievements    String?
   isCurrent       Boolean     @default(false)
 
   createdAt DateTime @default(now())
