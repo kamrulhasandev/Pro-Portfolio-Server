@@ -38,6 +38,25 @@ model Experience {
   @@map("experiences")
 }
 
+model Project {
+  id           String      @id @default(uuid())
+  name         String
+  link         String
+  githubServer String?
+  githubClient String?
+  description  String
+  image        String
+  technologies String[]
+  startDate    String?
+  endDate      String?
+  type         ProjectType
+  isOngoing    Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("projects")
+}
+
 enum SkillCategory {
   FRONTEND
   BACKEND
@@ -62,4 +81,11 @@ enum SkillLevel {
   INTERMEDIATE
   ADVANCED
   EXPERT
+}
+
+enum ProjectType {
+  FULL_STACK
+  FRONTEND
+  BACKEND
+  OTHER
 }
