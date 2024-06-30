@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
+import ApiError from "../errors/AppError";
 
 const globalErrorHandler = (
   err: any,
@@ -8,12 +9,15 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  let statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+  let statusCode: number = httpStatus.INTERNAL_SERVER_ERROR;
   let success = false;
   let message = err.message || "Something went wrong!";
   let error = err;
 
-  if (err instanceof Prisma.PrismaClientValidationError) {
+  if (err instanceof ApiError) {
+    statusCode = err.statusCode;
+    message = err.message;
+  } else if (err instanceof Prisma.PrismaClientValidationError) {
     message = "Validation Error";
     error = err.message;
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
