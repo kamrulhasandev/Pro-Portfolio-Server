@@ -6,10 +6,11 @@ import auth from "../../middlewares/auth";
 
 const router = express.Router();
 
-router.get("/", auth, SkillController.getAllSkills);
+router.get("/", SkillController.getAllSkills);
 
 router.post(
   "/add-skill",
+  auth,
   validateRequest(SkillValidations.addSkillValidation),
   SkillController.addSkill
 );

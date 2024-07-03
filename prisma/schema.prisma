@@ -72,10 +72,12 @@ enum SkillCategory {
   FRONTEND
   BACKEND
   DATABASE
+  LANGUAGE
   OTHER
 }
 
 enum JobType {
+  INTERNSHIP
   FULLTIME
   PARTTIME
   CONTRACT

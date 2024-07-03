@@ -11,14 +11,14 @@ const addExperienceValidation = z.object({
     designation: z.string({
       required_error: "Designation is required",
     }),
-    jobType: z.enum(["FULLTIME", "PARTTIME", "CONTRACT"], {
+    jobType: z.enum(["FULLTIME", "PARTTIME", "CONTRACT", "INTERNSHIP"], {
       required_error: "Job type is required",
     }),
     jobLocation: z.enum(["ON_SITE", "REMOTE", "HYBRID"], {
       required_error: "Job location is required",
     }),
     startDate: z.string({ required_error: "Start date is required" }),
-    endDate: z.string({ required_error: "Start date is required" }),
+    endDate: z.string().optional(),
 
     description: z.string({
       required_error: "Description is required",
